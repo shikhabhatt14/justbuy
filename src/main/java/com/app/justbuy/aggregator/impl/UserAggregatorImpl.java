@@ -5,6 +5,7 @@ import com.app.justbuy.exception.UserNotFoundException;
 import com.app.justbuy.model.User;
 import com.app.justbuy.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -13,6 +14,9 @@ import java.util.Optional;
 
 @Component
 public class UserAggregatorImpl implements UserAggregator {
+
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
     @Autowired
     UserRepository userRepository;
@@ -36,7 +40,10 @@ public class UserAggregatorImpl implements UserAggregator {
     public User editUser(User user) {
         return userRepository.findById(user.getId())
                 .map(user1 -> {
-            user1.setName(user.getName());
+            user1.setFirstName(user.getFirstName());
+            user1.setLastName(user.getLastName());
+            user1.setUserName(user.getUserName());
+            user1.setPassword(passwordEncoder.encode(user.getPassword()));
             user1.setAddress(user.getAddress());
             user1.setEmail(user.getEmail());
             user1.setPhone(user.getPhone());

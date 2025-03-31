@@ -8,12 +8,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/api/v1/")
 public class UserController {
 
     @Autowired
     UserAggregator userAggregator;
 
-    @GetMapping("/users")
+    @GetMapping("/private/users")
     public List<User> getUsers() {
         return userAggregator.listUsers();
     }
